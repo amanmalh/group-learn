@@ -73,7 +73,7 @@
         },
         learners: {
             reqired: true,
-            type: [User]
+            type: [Learner]
         },
         subTopics: [String],
         notes: {
@@ -126,5 +126,24 @@
             type: Date
         },
 
+    }
+```
+
+### Learner
+
+```js
+    {
+        id: {
+            reqired: true,
+            type: String
+        },
+        status: {
+            reqired: true,
+            type: String,
+            enum: [
+                "inProgress",
+                "complete"
+            ]
+        },
     }
 ```
