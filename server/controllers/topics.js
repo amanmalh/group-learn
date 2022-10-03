@@ -1,6 +1,5 @@
 const getTopics = (req, res) => {
   // get all topics for user
-  res.json({ topics: [1, 2, 3] });
 };
 
 const getTopic = (req, res) => {

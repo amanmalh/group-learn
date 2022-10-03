@@ -1,26 +1,29 @@
-import express from 'express'
-import mongoose from 'mongoose'
-import dotenv from 'dotenv'
-import routes from './routes/index.js'
-dotenv.config()
+import express from "express";
+import mongoose from "mongoose";
+import dotenv from "dotenv";
+import routes from "./routes/index.js";
+import bodyParser from "body-parser";
 
-const mongoString = process.env.DATABASE_URL
-mongoose.connect(mongoString)
-const database = mongoose.connection
+dotenv.config();
 
-database.on('error', (error) => {
-  console.log(error)
-})
+const mongoString = process.env.DATABASE_URL;
+mongoose.connect(mongoString);
+const database = mongoose.connection;
 
-database.once('connected', () => {
-  console.log('Database connected')
-})
+database.on("error", (error) => {
+  console.log(error);
+});
 
-const PORT = process.env.PORT || 3001
+database.once("connected", () => {
+  console.log("Database connected");
+});
 
-const app = express()
-app.use('/api', routes)
+const PORT = process.env.PORT || 3001;
+
+const app = express();
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use("/api", routes);
 app.listen(PORT, () => {
-  console.log(`Listening on port ${PORT}...`)
-})
-
+  console.log(`Listening on port ${PORT}...`);
+});

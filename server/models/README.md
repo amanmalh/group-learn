@@ -28,14 +28,6 @@
             reqired: true,
             type: String
         },
-        created: {
-            reqired: false,
-            type: Date
-        },
-        updated: {
-            reqired: false,
-            type: Date
-        },
         active: {
             reqired: false,
             type: Boolean
@@ -79,15 +71,7 @@
         notes: {
             reqired: true,
             type: [Note]
-        },
-        created: {
-            reqired: true,
-            type: Date
-        },
-        updated: {
-            reqired: true,
-            type: Date
-        },
+        }
     }
 ```
 
@@ -116,16 +100,7 @@
         createdBy: {
             reqired: true,
             type: String
-        },
-        created: {
-            reqired: true,
-            type: Date
-        },
-        updated: {
-            reqired: true,
-            type: Date
-        },
-
+        }
     }
 ```
 

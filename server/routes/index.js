@@ -8,7 +8,10 @@ import {
   editTopic,
   addSubTopic,
 } from "../controllers/topics.js";
+
+import { register } from "../controllers/auth.js";
 // routes go here
 
 router.get("/topics", getTopics);
+router.post("/user", register);
 export default router;
