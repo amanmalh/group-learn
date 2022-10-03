@@ -1,8 +1,14 @@
-import express from 'express'
-const router = express.Router()
+import express from "express";
+const router = express.Router();
+import {
+  getTopics,
+  getTopic,
+  addTopic,
+  removeTopic,
+  editTopic,
+  addSubTopic,
+} from "../controllers/topics.js";
+// routes go here
 
-router.get('/test', (req, res) => {
-    res.send('Get All API')
-})
-
-export default router
+router.get("/topics", getTopics);
+export default router;
