@@ -1,0 +1,19 @@
+{
+  "name": "group-study",
+  "version": "1.0.0",
+  "description": "Web app that allows users to efficiently learn topics by efficiently distributing workload within the team.",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "express": "^4.18.1",
+    "mongoose": "^6.6.3"
+  }
+}
