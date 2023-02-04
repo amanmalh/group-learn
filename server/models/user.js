@@ -1,30 +1,39 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
-const userSchema = new mongoose.Schema(
+const userSchema = new Schema(
   {
     username: {
       reqired: true,
       type: String,
+      unique: true,
     },
-    firstName: {
+    firstname: {
       reqired: true,
       type: String,
     },
-    lastName: {
+    lastname: {
       reqired: true,
       type: String,
     },
     email: {
       reqired: true,
       type: String,
+      unique: true,
     },
     password: {
       reqired: true,
       type: String,
     },
-    active: {
-      reqired: false,
+    profileImageUrl: {
+      type: String,
+    },
+    emailVerified: {
       type: Boolean,
+      default: false,
+    },
+    active: {
+      type: Boolean,
+      default: true,
     },
   },
   {

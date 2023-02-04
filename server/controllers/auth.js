@@ -1,23 +1,26 @@
-import User from "../models/user.js";
-const register = (req, res) => {
-  const newUser = new User({
-    username: req.body.username,
-    firstName: req.body.firstName,
-    lastName: req.body.lastName,
-    email: req.body.email,
-    password: "####",
-    active: false,
-  });
+import { createUser, loginUser } from "../services/auth.service.js";
+const register = async (req, res) => {
   try {
-    const dataToSave = newUser.save();
-    res.status(200).json(dataToSave);
-  } catch (error) {
-    res.status(400).json({ message: error.message });
+    const data = await createUser(req);
+    res.status(200).json(data);
+  } catch (err) {
+    const errorCode = err.code || 500;
+    res.status(errorCode).json({ message: err.message });
   }
 };
 
-const login = (req, res) => {};
+const login = async (req, res) => {
+  try {
+    const user = await loginUser(req);
+    res.status(200).json(user);
+  } catch (err) {
+    const errorCode = err.code || 500;
+    res.status(errorCode).json({ message: err.message });
+  }
+};
 
-const logout = (req, res) => {};
+const update = async (req, res) => {};
 
-export { register, login, logout };
+const remove = async (req, res) => {};
+
+export { register, login, update, remove };
