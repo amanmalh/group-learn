@@ -68,27 +68,36 @@ const addMembers = async (req) => {
     //TODO: throw error
     return;
   }
-  members = members.map((member) => Types.ObjectId(member));
-  group.members.push(...members);
+
+  const memberIds = group.members.map((member) => member.toString());
+  for (const member of members) {
+    if (!memberIds.includes(member)) group.members.push(Types.ObjectId(member));
+  }
 
   return await group.save();
 };
 
-const removeMembers = async () => {
-  const { id, members } = req.body;
+const removeMembers = async (req) => {
+  const { members } = req.body;
+  const { id } = req.params;
   const admin = req.user;
-  const group = Group.findOne({ _id: id });
+  const group = await Group.findById(id);
+
+  if (!group || !group.active) {
+    //TODO: throw error
+    return;
+  }
+
   if (!group.admin === admin) {
     //TODO: throw error
     return;
   }
-  if (!group.active) {
-    //TODO: throw error
-    return;
-  }
-  group.members = group.members.filter((member) => member in members);
 
-  await group.save();
+  group.members = group.members.filter(
+    (member) => !members.includes(member.toString())
+  );
+
+  return await group.save();
 };
 
 const getAdmin = (req) => {

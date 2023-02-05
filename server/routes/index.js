@@ -4,6 +4,7 @@ import { register, login, update, remove } from "../controllers/auth.js";
 import {
   addMembersToGroup,
   createGroup,
+  removeMembersFromGroup,
   updateGroup,
 } from "../controllers/group.js";
 import { auth } from "../middlewares/auth.js";
@@ -19,6 +20,7 @@ router.delete("/user/{id}", remove);
 router.post("/group", auth, createGroup);
 router.patch("/group/:id", auth, updateGroup);
 router.patch("/group/:id/members", auth, addMembersToGroup);
+router.delete("/group/:id/members", auth, removeMembersFromGroup);
 
 // goal routes
 // router.post('/goal', createGoal)

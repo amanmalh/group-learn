@@ -38,4 +38,20 @@ const addMembersToGroup = async (req, res) => {
   }
 };
 
-export { createGroup, updateGroup, removeGroup, addMembersToGroup };
+const removeMembersFromGroup = async (req, res) => {
+  try {
+    const group = await removeMembers(req);
+    res.status(200).json(group);
+  } catch (err) {
+    const errorCode = err.code || 500;
+    res.status(errorCode).json({ message: err.message });
+  }
+};
+
+export {
+  createGroup,
+  updateGroup,
+  removeGroup,
+  addMembersToGroup,
+  removeMembersFromGroup,
+};
