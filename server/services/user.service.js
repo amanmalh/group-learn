@@ -56,4 +56,43 @@ const loginUser = async (req) => {
   return userInfo;
 };
 
-export { createUser, loginUser };
+const fetchUserById = async (req) => {
+  const id = req.params.id;
+  const fetchedUser = await User.findById(id);
+
+  if (!fetchedUser) {
+    //throw error
+  }
+  const user = getThinUser(fetchedUser);
+  return user;
+};
+
+const fetchUsers = async (req) => {
+  const isPrefixed = req.query.prefix;
+  let filters = Object.keys(req.query);
+  filters = filters.filter((key) => key !== "prefix");
+  if (filters.length === 0) {
+    return;
+  }
+  const searchFilter = filters[0];
+  const searchFilterValue = req.query[searchFilter];
+
+  let fetchedUsers = [];
+
+  if (isPrefixed) {
+    fetchedUsers = await User.find({
+      username: { $regex: new RegExp(`^${searchFilterValue}`) },
+    });
+  } else {
+    fetchedUsers = await User.find({ username: searchFilterValue });
+  }
+
+  return fetchedUsers.map((user) => getThinUser(user));
+};
+
+const getThinUser = (user) => {
+  const { _id, firstname, lastname, email, username } = user;
+  return { id: _id, firstname, lastname, email, username };
+};
+
+export { createUser, loginUser, fetchUsers, fetchUserById };

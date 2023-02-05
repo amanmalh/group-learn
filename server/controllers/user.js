@@ -1,4 +1,4 @@
-import { createUser, loginUser } from "../services/auth.service.js";
+import { createUser, fetchUsers, loginUser } from "../services/user.service.js";
 const register = async (req, res) => {
   try {
     const data = await createUser(req);
@@ -19,8 +19,20 @@ const login = async (req, res) => {
   }
 };
 
+const getUser = async (req, res) => {
+  try {
+    const users = await fetchUsers(req);
+    res.status(200).json(users);
+  } catch (err) {
+    const errorCode = err.code || 500;
+    res.status(errorCode).json({ message: err.message });
+  }
+};
+
+const getUserById = (req, res) => {};
+
 const update = async (req, res) => {};
 
 const remove = async (req, res) => {};
 
-export { register, login, update, remove };
+export { register, login, update, remove, getUser, getUserById };

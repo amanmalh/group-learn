@@ -4,7 +4,7 @@ import {
   remove,
   addMembers,
   removeMembers,
-} from "../services/group.js";
+} from "../services/group.service.js";
 
 const createGroup = async (req, res) => {
   try {

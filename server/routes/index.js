@@ -1,6 +1,13 @@
 import express from "express";
 const router = express.Router();
-import { register, login, update, remove } from "../controllers/auth.js";
+import {
+  register,
+  login,
+  update,
+  remove,
+  getUserById,
+  getUser,
+} from "../controllers/user.js";
 import {
   addMembersToGroup,
   createGroup,
@@ -13,6 +20,8 @@ import { auth } from "../middlewares/auth.js";
 // auth routes
 router.post("/user", register);
 router.post("/login", login);
+router.get("/user/:id", auth, getUserById);
+router.get("/user", auth, getUser);
 router.patch("/user/{id}", update);
 router.delete("/user/{id}", remove);
 

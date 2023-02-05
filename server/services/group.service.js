@@ -100,8 +100,4 @@ const removeMembers = async (req) => {
   return await group.save();
 };
 
-const getAdmin = (req) => {
-  return "";
-};
-
 export { create, update, remove, addMembers, removeMembers };
