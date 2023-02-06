@@ -100,4 +100,14 @@ const removeMembers = async (req) => {
   return await group.save();
 };
 
-export { create, update, remove, addMembers, removeMembers };
+const fetchGroups = async (req) => {
+  const userId = req.query.userId;
+
+  const group = await Group.find({ members: Types.ObjectId(userId) }).select(
+    "_id name description members admin goals"
+  );
+
+  return group;
+};
+
+export { create, update, remove, addMembers, removeMembers, fetchGroups };

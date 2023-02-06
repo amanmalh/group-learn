@@ -1,6 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+import cors from "cors";
 import routes from "./routes/index.js";
 import bodyParser from "body-parser";
 
@@ -21,6 +22,7 @@ database.once("connected", () => {
 const PORT = process.env.PORT || 3001;
 
 const app = express();
+app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use("/api", routes);

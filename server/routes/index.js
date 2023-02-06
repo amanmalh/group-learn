@@ -11,6 +11,7 @@ import {
 import {
   addMembersToGroup,
   createGroup,
+  getGroups,
   removeMembersFromGroup,
   updateGroup,
 } from "../controllers/group.js";
@@ -30,7 +31,7 @@ router.post("/group", auth, createGroup);
 router.patch("/group/:id", auth, updateGroup);
 router.patch("/group/:id/members", auth, addMembersToGroup);
 router.delete("/group/:id/members", auth, removeMembersFromGroup);
-
+router.get("/groups", auth, getGroups);
 // goal routes
 // router.post('/goal', createGoal)
 // router.patch('/goal/{id}', updateGoal)
