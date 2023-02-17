@@ -71,6 +71,7 @@ const fetchUsers = async (req) => {
   const isPrefixed = req.query.prefix;
   let filters = Object.keys(req.query);
   filters = filters.filter((key) => key !== "prefix");
+  console.log(req.query);
   if (filters.length === 0) {
     return;
   }
@@ -86,7 +87,8 @@ const fetchUsers = async (req) => {
   } else {
     fetchedUsers = await User.find({ username: searchFilterValue });
   }
-
+  console.log("here");
+  console.log(fetchedUsers);
   return fetchedUsers.map((user) => getThinUser(user));
 };
 

@@ -1,9 +1,9 @@
 import { Row, Col } from "antd";
 import Login from "./Login";
 import Hero from "./Hero";
-import "./home.css";
+import "./landing.css";
 
-const Home = () => {
+const Landing = () => {
   return (
     <>
       <div id="landing">
@@ -22,4 +22,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Landing;

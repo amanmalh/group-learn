@@ -2,8 +2,7 @@ import {
   create,
   update,
   remove,
-  addMembers,
-  removeMembers,
+  updateMembers,
   fetchGroups,
 } from "../services/group.service.js";
 
@@ -29,19 +28,9 @@ const updateGroup = async (req, res) => {
 
 const removeGroup = async (req, res) => {};
 
-const addMembersToGroup = async (req, res) => {
+const patchGroupMembers = async (req, res) => {
   try {
-    const group = await addMembers(req);
-    res.status(200).json(group);
-  } catch (err) {
-    const errorCode = err.code || 500;
-    res.status(errorCode).json({ message: err.message });
-  }
-};
-
-const removeMembersFromGroup = async (req, res) => {
-  try {
-    const group = await removeMembers(req);
+    const group = await updateMembers(req);
     res.status(200).json(group);
   } catch (err) {
     const errorCode = err.code || 500;
@@ -59,11 +48,4 @@ const getGroups = async (req, res) => {
   }
 };
 
-export {
-  createGroup,
-  updateGroup,
-  removeGroup,
-  addMembersToGroup,
-  removeMembersFromGroup,
-  getGroups,
-};
+export { createGroup, updateGroup, patchGroupMembers, getGroups };

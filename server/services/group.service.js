@@ -53,10 +53,9 @@ const remove = async (id) => {
   await group.save();
 };
 
-const addMembers = async (req) => {
-  let { members } = req.body;
+const updateMembers = async (req) => {
+  const memberOperation = req.body;
   const { id } = req.params;
-
   const admin = req.user;
   const group = await Group.findById(id);
 
@@ -68,46 +67,30 @@ const addMembers = async (req) => {
     //TODO: throw error
     return;
   }
-
   const memberIds = group.members.map((member) => member.toString());
-  for (const member of members) {
-    if (!memberIds.includes(member)) group.members.push(Types.ObjectId(member));
+
+  for (const member of memberOperation) {
+    if (member.operation === "add") {
+      if (!memberIds.includes(member.id))
+        group.members.push(Types.ObjectId(member.id));
+    }
+    if (member.operation === "remove") {
+      const removeIndex = memberIds.indexOf(member.id);
+      if (removeIndex !== -1) group.members.splice(removeIndex, 1);
+    }
   }
-
-  return await group.save();
-};
-
-const removeMembers = async (req) => {
-  const { members } = req.body;
-  const { id } = req.params;
-  const admin = req.user;
-  const group = await Group.findById(id);
-
-  if (!group || !group.active) {
-    //TODO: throw error
-    return;
-  }
-
-  if (!group.admin === admin) {
-    //TODO: throw error
-    return;
-  }
-
-  group.members = group.members.filter(
-    (member) => !members.includes(member.toString())
-  );
 
   return await group.save();
 };
 
 const fetchGroups = async (req) => {
-  const userId = req.query.userId;
+  const userId = req.user;
 
-  const group = await Group.find({ members: Types.ObjectId(userId) }).select(
-    "_id name description members admin goals"
-  );
+  const group = await Group.find({ members: Types.ObjectId(userId) })
+    .populate("members")
+    .select("_id name description members admin goals");
 
   return group;
 };
 
-export { create, update, remove, addMembers, removeMembers, fetchGroups };
+export { create, update, remove, updateMembers, fetchGroups };

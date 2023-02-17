@@ -1,29 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
-import Home from "./home/Home";
 import reportWebVitals from "./reportWebVitals";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { ConfigProvider } from "antd";
+import App from "./screens/app/App";
 const root = ReactDOM.createRoot(document.getElementById("root"));
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Home />,
-  },
-]);
 
 root.render(
   <React.StrictMode>
-    <ConfigProvider
-      theme={{
-        token: {
-          colorPrimary: "#27D380",
-        },
-      }}
-    >
-      <RouterProvider router={router} />
-    </ConfigProvider>
+    <App />
   </React.StrictMode>
 );
 

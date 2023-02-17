@@ -9,10 +9,9 @@ import {
   getUser,
 } from "../controllers/user.js";
 import {
-  addMembersToGroup,
   createGroup,
   getGroups,
-  removeMembersFromGroup,
+  patchGroupMembers,
   updateGroup,
 } from "../controllers/group.js";
 import { auth } from "../middlewares/auth.js";
@@ -29,8 +28,7 @@ router.delete("/user/{id}", remove);
 // group routes
 router.post("/group", auth, createGroup);
 router.patch("/group/:id", auth, updateGroup);
-router.patch("/group/:id/members", auth, addMembersToGroup);
-router.delete("/group/:id/members", auth, removeMembersFromGroup);
+router.patch("/group/:id/members", auth, patchGroupMembers);
 router.get("/groups", auth, getGroups);
 // goal routes
 // router.post('/goal', createGoal)
