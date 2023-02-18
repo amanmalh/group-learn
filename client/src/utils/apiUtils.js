@@ -54,7 +54,6 @@ const patchGroup = async (group) => {
   */
 const patchGroupMembers = async ({ groupId, memberOperation }) => {
   const headers = { "Content-Type": "application/json" };
-  console.log(groupId);
   const response = await axios.patch(
     BASE_URL + "/group/" + groupId + "/members",
     memberOperation,
