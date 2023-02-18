@@ -4,6 +4,7 @@ import {
   remove,
   updateMembers,
   fetchGroups,
+  fetchGroup,
 } from "../services/group.service.js";
 
 const createGroup = async (req, res) => {
@@ -48,4 +49,14 @@ const getGroups = async (req, res) => {
   }
 };
 
-export { createGroup, updateGroup, patchGroupMembers, getGroups };
+const getGroup = async (req, res) => {
+  try {
+    const group = await fetchGroup(req);
+    res.status(200).json(group);
+  } catch (err) {
+    const errorCode = err.code || 500;
+    res.status(errorCode).json({ message: err.message });
+  }
+};
+
+export { createGroup, updateGroup, patchGroupMembers, getGroups, getGroup };

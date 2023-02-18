@@ -4,7 +4,7 @@ const create = async (req) => {
   const admin = Types.ObjectId(req.user);
   let { name, description, members } = req.body;
   if (!description) description = "";
-  if (!members) members = [];
+  if (!members) members = [admin];
   const group = new Group({
     name,
     description,
@@ -70,6 +70,7 @@ const updateMembers = async (req) => {
   const memberIds = group.members.map((member) => member.toString());
 
   for (const member of memberOperation) {
+    if (member.id === admin) continue;
     if (member.operation === "add") {
       if (!memberIds.includes(member.id))
         group.members.push(Types.ObjectId(member.id));
@@ -80,7 +81,12 @@ const updateMembers = async (req) => {
     }
   }
 
-  return await group.save();
+  const updatedGroup = await group.save();
+
+  return await updatedGroup.populate({
+    path: "members",
+    select: "firstname lastname username email",
+  });
 };
 
 const fetchGroups = async (req) => {
@@ -93,4 +99,16 @@ const fetchGroups = async (req) => {
   return group;
 };
 
-export { create, update, remove, updateMembers, fetchGroups };
+const fetchGroup = async (req) => {
+  const { id } = req.params;
+
+  const group = await Group.findById(id)
+    .populate("members")
+    .select("_id name description members admin goals");
+
+  if (!group) return null;
+
+  return group;
+};
+
+export { create, update, remove, updateMembers, fetchGroups, fetchGroup };

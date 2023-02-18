@@ -33,9 +33,22 @@ const fetchGroups = async () => {
   return response.data;
 };
 
+const fetchGroupById = async (id) => {
+  const headers = { "Content-Type": "application/json" };
+  // axios get groups - pass user as query p
+  const response = await axios.get(BASE_URL + `/group/${id}`, { headers });
+  return response.data;
+};
+
+const postGroup = async (group) => {
+  const headers = { "Content-Type": "application/json" };
+  // axios get groups - pass user as query p
+  const response = await axios.post(BASE_URL + "/group/", group, { headers });
+  return response.data;
+};
+
 const patchGroup = async (group) => {
   const { id, ...body } = group;
-  console.log(body);
   const headers = { "Content-Type": "application/json" };
   // axios get groups - pass user as query p
   const response = await axios.patch(
@@ -63,7 +76,7 @@ const patchGroupMembers = async ({ groupId, memberOperation }) => {
 };
 
 const getUsersByUsername = async (username, prefixed = true) => {
-  if (!username || username === "") return;
+  if (!username || username === "" || username.length < 3) return;
   const headers = { "Content-Type": "application/json" };
   const params = { prefix: prefixed, username };
 
@@ -77,6 +90,8 @@ const getUsersByUsername = async (username, prefixed = true) => {
 export {
   login,
   fetchGroups,
+  fetchGroupById,
+  postGroup,
   patchGroup,
   patchGroupMembers,
   getUsersByUsername,

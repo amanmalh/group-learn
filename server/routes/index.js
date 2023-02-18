@@ -10,6 +10,7 @@ import {
 } from "../controllers/user.js";
 import {
   createGroup,
+  getGroup,
   getGroups,
   patchGroupMembers,
   updateGroup,
@@ -30,6 +31,7 @@ router.post("/group", auth, createGroup);
 router.patch("/group/:id", auth, updateGroup);
 router.patch("/group/:id/members", auth, patchGroupMembers);
 router.get("/groups", auth, getGroups);
+router.get("/group/:id", auth, getGroup);
 // goal routes
 // router.post('/goal', createGoal)
 // router.patch('/goal/{id}', updateGoal)
