@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import { useQuery } from "react-query";
 import { fetchGroups } from "../../utils/apiUtils";
 import EditGroup from "./EditGroup";
@@ -5,16 +6,23 @@ import Group from "./group";
 
 const Groups = () => {
   const { isLoading, data, error } = useQuery("groups", fetchGroups);
-
+  const dialogRef = useRef();
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div> Error </div>;
-
+  const onGroupCreate = () => {
+    dialogRef.current.checked = false;
+  };
   return (
     <>
       <label htmlFor="create-group" className="btn btn-primary w-40">
         New Group
       </label>
-      <input type="checkbox" id="create-group" className="modal-toggle" />
+      <input
+        ref={dialogRef}
+        type="checkbox"
+        id="create-group"
+        className="modal-toggle"
+      />
       <div className="modal">
         <div className="modal-box">
           <label
@@ -24,7 +32,7 @@ const Groups = () => {
             ✕
           </label>
           <h3 className="font-bold text-lg">Create Group</h3>
-          <EditGroup action="create" />
+          <EditGroup action="create" onGroupCreate={onGroupCreate} />
         </div>
       </div>
       <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">

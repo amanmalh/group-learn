@@ -2,7 +2,7 @@ import { useState } from "react";
 import { patchGroup, postGroup } from "../../utils/apiUtils";
 import { useMutation, useQueryClient } from "react-query";
 
-const EditGroup = ({ group, action }) => {
+const EditGroup = ({ group, action, onGroupCreate }) => {
   if (action === "create") {
     group = { id: "", name: "", description: "" };
   }
@@ -15,6 +15,7 @@ const EditGroup = ({ group, action }) => {
   const invalidateGroups = {
     onSuccess: () => {
       queryClient.invalidateQueries("groups");
+      onGroupCreate();
     },
   };
   const handleSubmit = async (e) => {
@@ -51,7 +52,7 @@ const EditGroup = ({ group, action }) => {
             htmlFor="my-modal"
             className={groupMutation.isLoading ? "btn loading" : "btn"}
           >
-            Update
+            {action === "create" ? "Create" : "Update"}
           </button>
         </div>
       </form>
