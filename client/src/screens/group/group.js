@@ -1,42 +1,58 @@
+import { useState } from "react";
+import { Card, Grid, Icon } from "semantic-ui-react";
 import EditGroup from "./EditGroup";
 import GroupMembers from "./GroupMembers";
 
 const Group = ({ _id, name, description, members, handleGroupEdit }) => {
   const groupMembersDialogId = `group-members-${_id}`;
+  const [editModalOpened, setEditModalOpened] = useState(false);
+  const [membersModalOpened, setMembersModalOpened] = useState(false);
+
   return (
-    <div className="card w-96 bg-base-100 shadow-xl">
-      <div className="card-body">
-        <div className="grid"></div>
-        <h2 className="card-title">{name}</h2>
-        <p>{description}</p>
-        <div className="card-actions justify-end">
-          <label htmlFor="edit-group" className="btn btn-primary">
-            Edit
-          </label>
-          <label htmlFor={groupMembersDialogId} className="btn btn-primary">
-            Members
-          </label>
-          <input type="checkbox" id="edit-group" className="modal-toggle" />
-          <div className="modal">
-            <div className="modal-box">
-              <label
-                htmlFor="edit-group"
-                className="btn btn-sm btn-circle absolute right-2 top-2"
+    <Card fluid className="max-h-60 h-60 overflow-x-hidden overflow-y-auto">
+      <Card.Content>
+        <Card.Header>
+          <Grid>
+            <Grid.Column width={14}>{name}</Grid.Column>
+            <Grid.Column width={2}>
+              <span
+                className="cursor-pointer text-gray-400 hover:text-gray-700"
+                onClick={() => setEditModalOpened(true)}
               >
-                ✕
-              </label>
-              <h3 className="font-bold text-lg">Edit Group</h3>
-              <EditGroup
-                group={{ id: _id, name, description }}
-                onSubmit={handleGroupEdit}
-                action="edit"
-              />
-            </div>
-          </div>
-          <GroupMembers id={_id} members={members} />
-        </div>
-      </div>
-    </div>
+                <Icon name="edit" />
+              </span>
+            </Grid.Column>
+          </Grid>
+        </Card.Header>
+        <Card.Description>
+          {description.length < 250
+            ? description
+            : description.substring(0, 250) + "..."}
+        </Card.Description>
+      </Card.Content>
+      <Card.Content extra>
+        <EditGroup
+          group={{ id: _id, name, description }}
+          onSubmit={handleGroupEdit}
+          action="edit"
+          modalOpened={editModalOpened}
+          setModalOpened={setEditModalOpened}
+        />
+        <GroupMembers
+          id={_id}
+          members={members}
+          modalOpened={membersModalOpened}
+          setModalOpened={setMembersModalOpened}
+        />
+        <span
+          className="cursor-pointer hover:text-blue-600"
+          onClick={() => setMembersModalOpened(true)}
+        >
+          <Icon name="group" />
+          {members.length} member{members.length > 1 ? "s" : ""}
+        </span>
+      </Card.Content>
+    </Card>
   );
 };
 

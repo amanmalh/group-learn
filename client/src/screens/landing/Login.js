@@ -1,12 +1,12 @@
-import { Button, Checkbox, Form, Input } from "antd";
+import { Form, Button } from "semantic-ui-react";
 import { login } from "../../utils/apiUtils";
 import { useNavigate } from "react-router-dom";
-const onFinishFailed = (errorInfo) => {
-  console.log("Failed:", errorInfo);
-};
+
 const Login = () => {
   const navigate = useNavigate();
-  const onFinish = async (values) => {
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    const values = new FormData(e.target);
     try {
       const data = await login(values);
       localStorage.setItem("user", JSON.stringify(data));
@@ -19,71 +19,24 @@ const Login = () => {
   };
 
   return (
-    <Form
-      name="basic"
-      labelCol={{
-        span: 8,
-      }}
-      wrapperCol={{
-        span: 16,
-      }}
-      style={{
-        maxWidth: 600,
-      }}
-      initialValues={{
-        remember: true,
-      }}
-      onFinish={onFinish}
-      onFinishFailed={onFinishFailed}
-      autoComplete="off"
-    >
-      <Form.Item
-        label="Username"
-        name="id"
-        rules={[
-          {
-            required: true,
-            message: "Please input your username!",
-          },
-        ]}
-      >
-        <Input placeholder="Username or Email" />
-      </Form.Item>
+    <Form onSubmit={onSubmit}>
+      <Form.Group>
+        <Form.Input name="id" placeholder="Username or Email" />
+      </Form.Group>
 
-      <Form.Item
-        label="Password"
-        name="password"
-        rules={[
-          {
-            required: true,
-            message: "Please input your password!",
-          },
-        ]}
-      >
-        <Input.Password placeholder="Password" />
-      </Form.Item>
+      <Form.Group>
+        <Form.Input name="password" placeholder="Password" type="password" />
+      </Form.Group>
 
-      <Form.Item
-        name="remember"
-        valuePropName="checked"
-        wrapperCol={{
-          offset: 8,
-          span: 16,
-        }}
-      >
-        <Checkbox>Remember me</Checkbox>
-      </Form.Item>
+      <Form.Group>
+        <Form.Checkbox name="remember_me">Remember me</Form.Checkbox>
+      </Form.Group>
 
-      <Form.Item
-        wrapperCol={{
-          offset: 8,
-          span: 16,
-        }}
-      >
-        <Button type="primary" htmlType="submit">
+      <Form.Group>
+        <Button primary type="submit">
           Submit
         </Button>
-      </Form.Item>
+      </Form.Group>
     </Form>
   );
 };

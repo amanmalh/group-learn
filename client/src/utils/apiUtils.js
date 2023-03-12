@@ -16,13 +16,9 @@ axios.interceptors.request.use((config) => {
   return config;
 });
 
-const login = async ({ id, password }) => {
+const login = async (data) => {
   const headers = { "Content-Type": "application/json" };
-  const response = await axios.post(
-    BASE_URL + "/login",
-    { id, password },
-    { headers }
-  );
+  const response = await axios.post(BASE_URL + "/login", data, { headers });
   return response;
 };
 

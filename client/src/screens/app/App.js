@@ -1,9 +1,11 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Groups from "../group/groups";
+import Groups from "../group/Groups";
 import Header from "../header/Header";
 import Landing from "../landing/Landing";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
+
+import "semantic-ui-css/semantic.min.css";
 
 const queryClient = new QueryClient();
 

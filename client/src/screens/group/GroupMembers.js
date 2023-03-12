@@ -9,8 +9,9 @@ import {
 } from "../../utils/apiUtils";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import { Button, Grid, Modal } from "semantic-ui-react";
 
-const GroupMembers = ({ id }) => {
+const GroupMembers = ({ id, modalOpened, setModalOpened }) => {
   const queryClient = useQueryClient();
   const [selectedOption, setSelectedOption] = useState(null);
   const { data } = useQuery(`group-${id}`, () => fetchGroupById(id));
@@ -48,7 +49,7 @@ const GroupMembers = ({ id }) => {
   return (
     <>
       {/* Put this part before </body> tag */}
-      <input type="checkbox" id={dialogId} className="modal-toggle" />
+      {/* <input type="checkbox" id={dialogId} className="modal-toggle" />
       <div className="modal">
         <div className="modal-box">
           <label
@@ -98,7 +99,54 @@ const GroupMembers = ({ id }) => {
               ))}
           </div>
         </div>
-      </div>
+      </div> */}
+
+      <Modal
+        onClose={() => setModalOpened(false)}
+        onOpen={() => setModalOpened(true)}
+        open={modalOpened}
+      >
+        <Modal.Header>Group Members</Modal.Header>
+        <Modal.Content>
+          <Grid>
+            <Grid.Row>
+              <Grid.Column width={10}>
+                <AsyncSelect
+                  loadOptions={getUsersByUsername}
+                  onChange={setSelectedOption}
+                  isMulti
+                />
+              </Grid.Column>
+              <Grid.Column width={6}>
+                <Button onClick={handleAddMembers}>Add</Button>
+              </Grid.Column>
+            </Grid.Row>
+            <Grid.Row>
+              <Grid.Column width={16}>
+                {!data && <div>Loading...</div>}
+              </Grid.Column>
+            </Grid.Row>
+            {data &&
+              data.members.map((member) => (
+                <Grid.Row key={member._id}>
+                  <Grid.Column width={2}>{member.username}</Grid.Column>
+                  <Grid.Column width={1}>
+                    <FontAwesomeIcon
+                      className="cursor-pointer"
+                      icon={faXmark}
+                      onClick={() => removeMember(member._id)}
+                    />
+                  </Grid.Column>
+                </Grid.Row>
+              ))}
+          </Grid>
+        </Modal.Content>
+        <Modal.Actions>
+          <Button color="black" onClick={() => setModalOpened(false)}>
+            Cancel
+          </Button>
+        </Modal.Actions>
+      </Modal>
     </>
   );
 };
