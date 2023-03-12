@@ -7,14 +7,14 @@ import {
   remove,
   getUserById,
   getUser,
-} from "../controllers/user.js";
+} from "../controllers/user.controller.js";
 import {
   createGroup,
   getGroup,
   getGroups,
   patchGroupMembers,
   updateGroup,
-} from "../controllers/group.js";
+} from "../controllers/group.controller.js";
 import { auth } from "../middlewares/auth.js";
 // import { createGoal, updateGoal, removeGoal } from '../controllers/goal'
 
